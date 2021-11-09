@@ -1,21 +1,15 @@
-#SwapNFTs is a marketplace where you can list or exchange one or more NFTs with others' NFTs in a trustless manner. 
+#Garyslist is a Craigslist look-alike that exists on the blockchain. 
 
+###Workflow
 
-##Workflow:
-Listing:
+Buying an advertisement spot:
+	
+	1. Customers connect their wallet to the website.
 
-1. User connects their wallet to the website, which will show the NFTs it contains.
+	2. They can choose an advertising space and pay a daily rate of ETH for however many days they would like.
 
-2. User can choose to list one NFT or a bundle of NFTs as up for exchange, paying the required gas fee. 
+Closing a spot early:
 
-3. The NFTs are added to the marketplace.
-
-Making an offer:
-
-1. User finds an NFT on the marketplace that they want to exchange with and submits an offer of one or more NFTs in their wallet, paying the required gas fee.
-
-Swapping:
-
-1. Owner of the listed NFT accepts the offer, and the NFTs are exchanged between two wallets. 
+	1. Customers can close their ad space and get a refund for the remainder of the days they've purchased. 
 
 
