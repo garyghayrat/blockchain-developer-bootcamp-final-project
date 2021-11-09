@@ -1,6 +1,6 @@
-#Garyslist is a Craigslist look-alike that exists on the blockchain. 
+# Garyslist is a Craigslist look-alike that exists on the blockchain. 
 
-###Workflow
+### Workflow
 
 Buying an advertisement spot:
 	
