@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.21 <0.7.0;
+pragma solidity >=0.8.0;
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract MyContract {
+contract MyContract is Ownable{
 //all avaialble add spaces
   mapping (uint => bytes32) adSpaces;
   
@@ -12,7 +13,7 @@ contract MyContract {
   }
 
 //Remove an adSpace message and replace with default.
-  function closeAd(uint number) public {
+  function closeAd(uint number) public onlyOwner {
 
   }
 
@@ -22,7 +23,7 @@ contract MyContract {
   }
 
 //Return the message that is located at a certain mapping location
-  function get(uint number) public returns (bytes32) {
+  function get(uint number) public view returns (bytes32) {
     return adSpaces[number];
   }
 
