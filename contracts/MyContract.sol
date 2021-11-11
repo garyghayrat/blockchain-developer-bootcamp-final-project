@@ -1,20 +1,55 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
+//import "hardhat/console.sol";
 
 contract MyContract is Ownable{
-//all avaialble add spaces
-  mapping (uint => bytes32) adSpaces;
+
+//Determine how many adSpots are available;
+  uint spots = 3;
+
+//all buyers who get to close their adSpace and get a refund
+  address[3] public buyers;
+
+//all avaialble ad spaces
+  mapping (uint => string) adSpaces;
+
+//Price of a single adSpace;
+  uint price = 100000000000000000 wei; //0.1 ether
   
+
+//Verify it's the owner who's calling the contract
+  modifier verifyBuyer (uint adID, address _address) {
+    require(msg.sender == buyers[adID]);
+    _;
+  }
+
+//Verify buyer paid enough for the adSpace
+  modifier verifyAmount() {
+    require(msg.value >= price);
+    _;
+  }
+
+  modifier verifyExists(uint adID) {
+    require (adID >= 0 && adID < spots);
+    _;
+  }
+
 //Pick an adSpace # from the mapping and input a message to be displayed on the website
-  function buyAd(uint number, bytes32 message) public returns(bool) {
-    adSpaces[number] = message;
+  function buyAd(uint adID, string memory message) public payable verifyAmount verifyExists(adID) returns(bool) {
+
+    buyers[adID] = msg.sender;
+    adSpaces[adID] = message;
     return true;
   }
 
-//Remove an adSpace message and replace with default.
-  function closeAd(uint number) public onlyOwner {
+  function showAd(uint adID) public view verifyExists(adID) returns(string memory) {
+    return adSpaces[adID];
+  }
 
+//Remove an adSpace message and replace with default.
+  function closeAd(uint adID) public verifyBuyer(adID, msg.sender) {
+//    console.log(5);
   }
 
 //Refund customer with the unused eth balance after closing the adSpace
@@ -22,10 +57,21 @@ contract MyContract is Ownable{
 
   }
 
-//Return the message that is located at a certain mapping location
-  function get(uint number) public view returns (bytes32) {
-    return adSpaces[number];
+
+//Enable contract to receive money
+  receive() external payable {}
+
+//Fallback function is called when msg.data is not empty
+  fallback() external payable {}
+
+//Check money accured in the contract
+  function getBalance() public view returns (uint) {
+        return address(this).balance;
+    }
+
+//Withdraw money accured in the contract to owner of contract
+  function withdraw(uint amount) external onlyOwner {
+    (bool sent, bytes memory data) = owner().call{value: amount}("");
+    require(sent, "Failed to send Ether");
   }
-
-
 }
