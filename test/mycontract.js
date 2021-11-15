@@ -43,7 +43,7 @@ contract("MyContract", accounts => {
         assert(false);
     } catch(err) {
         assert(err);
-        console.log("only owner can withdraw");
+        //console.log("Others can't withdraw");
     }
     });
 });
