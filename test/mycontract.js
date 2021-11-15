@@ -2,9 +2,26 @@ const MyContract = artifacts.require("./MyContract.sol");
 
 contract("MyContract", accounts => {
     it("contract should be deployed", async () => {
-        await MyContract.deployed();
-        return assert.isTrue(true);
+      await MyContract.deployed();
+      return assert.isTrue(true);
+    });
+
+    it("deployer should be the owner", async() => {
+      const mcInstance = await MyContract.new();
+      var owner = await mcInstance.owner();
+      console.log("owner is: " + owner);
+      var deployer = accounts[0]; 
+      console.log("deployer is: " + deployer);
+      assert.equal(owner, deployer, "deployer is not the owner");
     })
+
+    it("should be able to buy an Adspace", async() => {
+      const mcInstance = await MyContract.new({from : accounts[0]});
+      await mcInstance.buyAd(0, "test message", {from: accounts[0], value: String(11e16)});
+      const message = await mcInstance.showAd(0);
+      console.log(message);
+      assert.equal(message, "test message");
+    });
 });
 
 /*

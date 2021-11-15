@@ -14,6 +14,9 @@ contract MyContract is Ownable{
 //all avaialble ad spaces
   mapping (uint => string) adSpaces;
 
+//Buyer's balance
+  mapping (address => uint) balances;
+
 //Price of a single adSpace;
   uint price = 100000000000000000 wei; //0.1 ether
   
@@ -24,23 +27,24 @@ contract MyContract is Ownable{
     _;
   }
 
-//Verify buyer paid enough for the adSpace
+//Verify buyer paid enough for the adSpace or have enough balance in their account;
   modifier verifyAmount() {
-    require(msg.value >= price);
+    require(msg.value >= price || balances[msg.sender] >= price);
     _;
   }
 
+//Verify the adID exists within range
   modifier verifyExists(uint adID) {
     require (adID >= 0 && adID < spots);
     _;
   }
 
 //Pick an adSpace # from the mapping and input a message to be displayed on the website
-  function buyAd(uint adID, string memory message) public payable verifyAmount verifyExists(adID) returns(bool) {
+  function buyAd(uint adID, string memory message) public payable verifyAmount verifyExists(adID) returns(string memory) {
 
     buyers[adID] = msg.sender;
     adSpaces[adID] = message;
-    return true;
+    return adSpaces[adID];
   }
 
   function showAd(uint adID) public view verifyExists(adID) returns(string memory) {
@@ -67,7 +71,7 @@ contract MyContract is Ownable{
 //Check money accured in the contract
   function getBalance() public view returns (uint) {
         return address(this).balance;
-    }
+  }
 
 //Withdraw money accured in the contract to owner of contract
   function withdraw(uint amount) external onlyOwner {
