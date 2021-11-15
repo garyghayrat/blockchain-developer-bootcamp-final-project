@@ -9,18 +9,42 @@ contract("MyContract", accounts => {
     it("deployer should be the owner", async() => {
       const mcInstance = await MyContract.new();
       var owner = await mcInstance.owner();
-      console.log("owner is: " + owner);
+      //console.log("owner is: " + owner);
       var deployer = accounts[0]; 
-      console.log("deployer is: " + deployer);
+      //console.log("deployer is: " + deployer);
       assert.equal(owner, deployer, "deployer is not the owner");
     })
 
-    it("should be able to buy an Adspace", async() => {
+    it("able to register a message onto adSpace", async() => {
       const mcInstance = await MyContract.new({from : accounts[0]});
-      await mcInstance.buyAd(0, "test message", {from: accounts[0], value: String(11e16)});
+      const price = await mcInstance.getPrice();
+      await mcInstance.buyAd(0, "test message", {value: String(price)});
+      
       const message = await mcInstance.showAd(0);
-      console.log(message);
+      //console.log(message);
       assert.equal(message, "test message");
+    });
+
+    it("able to register the buyer of adSpace", async() => {
+      const mcInstance = await MyContract.new({from : accounts[0]});
+      const price = await mcInstance.getPrice();
+      //console.log(price);
+      await mcInstance.buyAd(0, "test message", {value: String(price)});
+      const buyer = await mcInstance.getBuyer(0);
+      assert.equal(buyer, accounts[0]);
+      
+    });
+
+    it("only owner should be able to withdraw", async() => {
+      try {
+        const mcInstance = await MyContract.new({from : accounts[0]});
+        await mcInstance.withdrawAll({from: accounts[1]});
+        console.log("non-owner was able to withdraw!");
+        assert(false);
+    } catch(err) {
+        assert(err);
+        console.log("only owner can withdraw");
+    }
     });
 });
 

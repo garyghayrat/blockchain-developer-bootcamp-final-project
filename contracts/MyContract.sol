@@ -18,7 +18,7 @@ contract MyContract is Ownable{
   mapping (address => uint) balances;
 
 //Price of a single adSpace;
-  uint price = 100000000000000000 wei; //0.1 ether
+  uint price = 1e16; //0.1 ether
   
 
 //Verify it's the owner who's calling the contract
@@ -51,6 +51,14 @@ contract MyContract is Ownable{
     return adSpaces[adID];
   }
 
+  function getPrice() public view returns(uint) {
+    return price;
+  }
+
+  function getBuyer(uint number) public view returns(address) {
+    return buyers[number];
+  }
+
 //Remove an adSpace message and replace with default.
   function closeAd(uint adID) public verifyBuyer(adID, msg.sender) {
 //    console.log(5);
@@ -74,8 +82,8 @@ contract MyContract is Ownable{
   }
 
 //Withdraw money accured in the contract to owner of contract
-  function withdraw(uint amount) external onlyOwner {
-    (bool sent, bytes memory data) = owner().call{value: amount}("");
+  function withdrawAll() external onlyOwner {
+    (bool sent, bytes memory data) = owner().call{value: getBalance()}("");
     require(sent, "Failed to send Ether");
   }
 }
