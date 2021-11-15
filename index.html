@@ -5,14 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Garyslist</title>
-    
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.6.1-rc.3/web3.min.js"></script>
+
 </head>
 <body>
     <h1>Welcome to Garyslist</h1>
 
     <div id="mm-detected"></div>
 
+    <div id="mm-current-account"></div>
+
     <button id="mm-connect">Connect to Metamask</button>
+
+
+    <div id="ss-current"></div>
+    <button id="ss-get">Get Value</button>
+    
+    <input id="ss-input-box" type="number" placeholder="Provide input"/>
+    <button id="ss-input-button">Submit Value</button>
     <!-- 1. detect Metamask is / is not installed
     2. allow the user to get access to Metamask
     3. allow the user to send a transaction / update
