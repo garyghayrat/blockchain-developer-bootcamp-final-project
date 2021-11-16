@@ -10211,14 +10211,34 @@
   },
   "networks": {
     "4": {
-      "events": {},
+      "events": {
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        }
+      },
       "links": {},
-      "address": "0x2aF32F1700773caD712865d68761B7620DDB53e7",
-      "transactionHash": "0x4e2278f89a939f5a69bd01fe9fcf1e5ab4b5cd09f63c7d924c870400a1067160"
+      "address": "0x63701493584B7A6908fed4d8C19749c2D8622422",
+      "transactionHash": "0x10053f0218e651a3928df730dc1b130ec65a0421f8e43120d6f38b34f5d8b665"
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-11-15T16:10:45.625Z",
+  "updatedAt": "2021-11-15T22:26:45.043Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
