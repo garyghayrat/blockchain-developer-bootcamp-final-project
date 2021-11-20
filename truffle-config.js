@@ -1,5 +1,10 @@
 const path = require("path");
 
+//following 2 lines to make web3 work on local ganache
+// import Web3 from 'https://cdnjs.cloudflare.com/ajax/libs/web3/1.6.1-rc.3/web3.min.js';
+// const web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+
+//Uncomment below to use rinkeby
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 const infuraURL = 'https://rinkeby.infura.io/v3/2f914bd107014e87b74249b8c6c2ab37'
 const fs = require('fs');
