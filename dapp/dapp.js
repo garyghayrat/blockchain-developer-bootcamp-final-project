@@ -3,7 +3,7 @@
 
 console.log("Hello world");
 
-const mcAddress = '0x63701493584B7A6908fed4d8C19749c2D8622422';
+const mcAddress = '0x8C66B683dAb9E757dc3dAE9AF2c06E6c9250D45f';
 
 const mcABI = [
   {
@@ -211,11 +211,13 @@ const mcABI = [
   }
 ];
 
-//For rinkeby use line below
-var web3 = new Web3(window.ethereum);
 
-//Trying this out for local node
-//var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+
+//For rinkeby use line below
+//var web3 = new Web3(window.ethereum);
+
+//Use this for local node
+const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
 
 
 const mc = new web3.eth.Contract(mcABI, mcAddress);
@@ -272,9 +274,10 @@ const resetAds = document.getElementById("reset-ad-button");
     //Buy ad spot 0 with custom message
 const mcBuy = document.getElementById("mc-buy-button");
 
-
+    //Buying an ad spot
 mcBuy.onclick = async() => {
-    const mcString = document.getElementById("mc-input-box").value;
+    const mcNonString = document.getElementById("mc-input-box").value;
+    const mcString = mcNonString.toString();
     console.log(mcString);
 
     const mcPrice = await mc.methods.getPrice().call();
