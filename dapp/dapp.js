@@ -3,7 +3,7 @@
 
 console.log("Hello world");
 
-const mcAddress = '0x8C66B683dAb9E757dc3dAE9AF2c06E6c9250D45f';
+const mcAddress = '0x9d3d8A2c4C7c53d8F84B12dB2A4225c74190a67a';
 
 const mcABI = [
   {
@@ -29,6 +29,26 @@ const mcABI = [
     "stateMutability": "payable",
     "type": "fallback",
     "payable": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "adSpaces",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -226,6 +246,8 @@ let adIndex = 0;
 //mc.setProvider(window.ethereum);
 console.log("index is " + adIndex);
 
+refresh();
+
 window.addEventListener('load', () => {
     if(typeof window.ethereum !== 'undefined') {
         let mmDetected = document.getElementById(
@@ -255,13 +277,29 @@ mmEnable.onclick = async() => {
 const showAds = document.getElementById("show-ad-button");
   //console.log(mc.methods.spots().call());
     showAds.onclick = async() => {
-      for(let i = 0; i < 3; i++) {
-    let ad = document.getElementById("ad" + i);
-    let adString = await mc.methods.showAd(i).call();
-    ad.innerHTML = adString;
-    console.log("ad " + i + " is " + adString);
-      };
+    //   for(let i = 0; i < 3; i++) {
+    // let ad = document.getElementById("ad" + i);
+    // let adString = await mc.methods.showAd(i).call();
+    // ad.innerHTML = adString;
+    // console.log("ad " + i + " is " + adString);
+    //   };
+      refresh();
     };
+
+//Refresh the number of avaialble ad spots and show existing ads
+async function refresh(){
+//Showing the # of avaialble spots
+document.getElementById("availability").innerHTML = "Available number of spots: " + (3 - adIndex);
+//Show existing ad spots
+for(let i = 0; i < 3; i++) {
+ // const showAds = document.getElementById("show-ad-button");
+  let ad = document.getElementById("ad" + i);
+  let adString = await mc.methods.showAd(i).call();
+  ad.innerHTML = adString;
+  console.log("ad " + i + " is " + adString);
+    };
+};
+
 
     //Reset adIndex to 0;
 const resetAds = document.getElementById("reset-ad-button");
@@ -276,8 +314,8 @@ const mcBuy = document.getElementById("mc-buy-button");
 
     //Buying an ad spot
 mcBuy.onclick = async() => {
-    const mcNonString = document.getElementById("mc-input-box").value;
-    const mcString = mcNonString.toString();
+    console.log(document.getElementById("mc-input-box").value);
+    let mcString = document.getElementById("mc-input-box").value;
     console.log(mcString);
 
     const mcPrice = await mc.methods.getPrice().call();
@@ -286,6 +324,7 @@ mcBuy.onclick = async() => {
     
     await mc.methods.buyAd(adIndex, mcString).send({from: ethereum.selectedAddress, value: mcPrice});
     adIndex ++;
+    refresh();
 
 //    window.location.reload(true);
 };

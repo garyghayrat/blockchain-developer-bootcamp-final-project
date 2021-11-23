@@ -12,7 +12,7 @@ contract MyContract is Ownable{
   address[3] public buyers;
 
 //all avaialble ad spaces
-  mapping (uint => string ) adSpaces;
+  mapping (uint => string) public adSpaces;
 
 //Buyer's balance
   mapping (address => uint) balances;
@@ -40,11 +40,11 @@ contract MyContract is Ownable{
   }
 
 //Pick an adSpace # from the mapping and input a message to be displayed on the website
-  function buyAd(uint adID, string calldata message) public payable verifyAmount verifyExists(adID) returns(string calldata) {
+  function buyAd(uint adID, string memory message) public payable verifyAmount verifyExists(adID) returns(string memory) {
 
     buyers[adID] = msg.sender;
     adSpaces[adID] = message;
-    return message;
+    return adSpaces[adID];
   }
 
   function showAd(uint adID) public view verifyExists(adID) returns(string memory) {
