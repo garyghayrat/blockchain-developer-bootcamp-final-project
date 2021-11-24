@@ -3,7 +3,7 @@
 
 console.log("Hello world");
 
-const mcAddress = '0xA6f2223291717AF015538D3E04771724977C3ef1';
+const mcAddress = '0x6797d81D1B75Cc6814c8B27a754e4D44f9377278';
 
 const mcABI = [
   {
@@ -74,26 +74,6 @@ const mcABI = [
         "internalType": "bool",
         "name": "sold",
         "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function",
-    "constant": true
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "buyers",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -195,6 +175,26 @@ const mcABI = [
     "constant": true
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "adID",
+        "type": "uint256"
+      }
+    ],
+    "name": "showAdUrl",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
     "inputs": [],
     "name": "getPrice",
     "outputs": [
@@ -220,6 +220,26 @@ const mcABI = [
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "adID",
+        "type": "uint256"
+      }
+    ],
+    "name": "getBuyer",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -334,14 +354,16 @@ for(let i = 0; i < 3; i++) {
  // const showAds = document.getElementById("show-ad-button");
   let ad = document.getElementById("ad" + i);
   let adString = await mc.methods.showAd(i).call();
-  let adURL = await mc.ads[i].url.call(); //trying to figure out how to access an object without creating a function in smart contract
+  let adURL = await mc.methods.showAdUrl(i).call(); //trying to figure out how to access an object without creating a function in smart contract
   ad.innerHTML = adString;
-  ad.href = "" + adURL;
+  ad.onclick = () => window.open(adURL);
   ad.target = "_blank";
-  console.log("ad " + i + " is " + adString);
+  console.log("ad " + i + " is " + adString + " url is " + adURL);
     };
 };
 
+//Closing an ad position
+const closeAd = document.getElementById("clsoe-ad-button");
 
     //Reset adIndex to 0;
 const resetAds = document.getElementById("reset-ad-button");

@@ -2329,12 +2329,12 @@
     "1637701358258": {
       "events": {},
       "links": {},
-      "address": "0x6166B2f2214Aaac7dE520cCE90F6601D2bbe28Fe",
-      "transactionHash": "0xcf9b1654bbcffa939809f36736b7af45e9a7fefeec41482106c146a7eba7bf69"
+      "address": "0xb2E88190e4F460cA7D75087130D01E363db922ff",
+      "transactionHash": "0x2af50b6931e196ce18f1274e09d00fd95c52e0837d408481293030aaa681d50b"
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-11-24T03:16:33.683Z",
+  "updatedAt": "2021-11-24T03:43:49.423Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",

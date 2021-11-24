@@ -54,7 +54,7 @@ contract MyContract is Ownable{
 
 //Pick an adSpace # from the mapping and input a message to be displayed on the website
   function buyAd(uint adID, uint _expires, string memory _message, string memory _url) public payable verifyAmount(adID, _expires) verifyExists(adID) returns(string memory) {
-    require (ads[adID].sold == false);
+    //require (ads[adID].sold == false);
 
     ads[adID] = Ad({
       adCount: adCount,
