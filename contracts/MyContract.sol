@@ -7,29 +7,42 @@ contract MyContract is Ownable{
 
 //Determine how many adSpots are available;
   uint spots = 3;
+  uint adCount = 0;
 
 //all buyers who get to close their adSpace and get a refund
   address[3] public buyers;
 
 //all avaialble ad spaces
-  mapping (uint => string) public adSpaces;
+  mapping (uint => Ad) public ads;
+
+//Ad specifications
+
+  struct Ad {
+    uint adCount;
+    uint price;
+    uint expires;
+    string message;
+    string url;
+    address buyer;
+    bool sold;
+  }
 
 //Buyer's balance
   mapping (address => uint) balances;
 
 //Price of a single adSpace;
-  uint price = 1e16; //0.1 ether
+  uint price = 1e13; //0.0001 ether
   
 
-//Verify it's the owner who's calling the contract
+//Verify it's the owner of an ad that's trying to call the contract;
   modifier verifyBuyer (uint adID, address _address) {
-    require(msg.sender == buyers[adID]);
+    require(_address == ads[adID].buyer);
     _;
   }
 
 //Verify buyer paid enough for the adSpace or have enough balance in their account;
-  modifier verifyAmount() {
-    require(msg.value >= price || balances[msg.sender] >= price);
+  modifier verifyAmount(uint adID, uint expires) {
+    require(msg.value >= price*expires);
     _;
   }
 
@@ -40,28 +53,45 @@ contract MyContract is Ownable{
   }
 
 //Pick an adSpace # from the mapping and input a message to be displayed on the website
-  function buyAd(uint adID, string memory message) public payable verifyAmount verifyExists(adID) returns(string memory) {
+  function buyAd(uint adID, uint _expires, string memory _message, string memory _url) public payable verifyAmount(adID, _expires) verifyExists(adID) returns(string memory) {
+    require (ads[adID].sold == false);
 
-    buyers[adID] = msg.sender;
-    adSpaces[adID] = message;
-    return adSpaces[adID];
+    ads[adID] = Ad({
+      adCount: adCount,
+      price: price,
+      expires: block.timestamp + (_expires * 1 days),
+      message: _message,
+      url : _url,
+      buyer : msg.sender,
+      sold : true
+    });
+
+    return ads[adID].message;
   }
-
-  function showAd(uint adID) public view verifyExists(adID) returns(string memory) {
-    return adSpaces[adID];
+  
+  function showAd(uint adID) public view returns(string memory) {
+    return ads[adID].message;
   }
-
+  
   function getPrice() public view returns(uint) {
     return price;
   }
 
-  function getBuyer(uint number) public view returns(address) {
-    return buyers[number];
+  function changePrice(uint newPrice) external onlyOwner {
+    Price = newPrice;
   }
+
+  // function getBuyer(uint number) public view returns(address) {
+  //   return buyers[number];
+  // }
 
 //Remove an adSpace message and replace with default.
   function closeAd(uint adID) public verifyBuyer(adID, msg.sender) {
-//    console.log(5);
+    ads[adID].message = "";
+    ads[adID].buyer = address(0);
+    ads[adID].sold = false;
+
+    refund();
   }
 
 //Refund customer with the unused eth balance after closing the adSpace

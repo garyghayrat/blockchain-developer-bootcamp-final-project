@@ -3,7 +3,7 @@
 
 console.log("Hello world");
 
-const mcAddress = '0x9d3d8A2c4C7c53d8F84B12dB2A4225c74190a67a';
+const mcAddress = '0x968cDEFB297a97AD732617588D584211382A2E70';
 
 const mcABI = [
   {
@@ -38,12 +38,42 @@ const mcABI = [
         "type": "uint256"
       }
     ],
-    "name": "adSpaces",
+    "name": "ads",
     "outputs": [
       {
+        "internalType": "uint256",
+        "name": "adCount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "price",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "expires",
+        "type": "uint256"
+      },
+      {
         "internalType": "string",
-        "name": "",
+        "name": "message",
         "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "url",
+        "type": "string"
+      },
+      {
+        "internalType": "address",
+        "name": "buyer",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "sold",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -117,8 +147,18 @@ const mcABI = [
         "type": "uint256"
       },
       {
+        "internalType": "uint256",
+        "name": "_expires",
+        "type": "uint256"
+      },
+      {
         "internalType": "string",
-        "name": "message",
+        "name": "_message",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_url",
         "type": "string"
       }
     ],
@@ -162,26 +202,6 @@ const mcABI = [
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function",
-    "constant": true
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "number",
-        "type": "uint256"
-      }
-    ],
-    "name": "getBuyer",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -290,12 +310,21 @@ const showAds = document.getElementById("show-ad-button");
 async function refresh(){
 //Showing the # of avaialble spots
 document.getElementById("availability").innerHTML = "Available number of spots: " + (3 - adIndex);
+
+//Show price in ETH
+let price = await mc.methods.getPrice().call();
+let ethprice = web3.utils.fromWei(price, 'ether');
+document.getElementById("daily-rate").innerHTML =  "Current rate is " + ethprice + "ether/day";
+
 //Show existing ad spots
 for(let i = 0; i < 3; i++) {
  // const showAds = document.getElementById("show-ad-button");
   let ad = document.getElementById("ad" + i);
   let adString = await mc.methods.showAd(i).call();
+  let adURL = await mc.ads[i].url.call();
   ad.innerHTML = adString;
+  ad.href = "" + adURL;
+  ad.target = "_blank";
   console.log("ad " + i + " is " + adString);
     };
 };
@@ -314,15 +343,17 @@ const mcBuy = document.getElementById("mc-buy-button");
 
     //Buying an ad spot
 mcBuy.onclick = async() => {
-    console.log(document.getElementById("mc-input-box").value);
+//    console.log(document.getElementById("mc-input-box").value);
     let mcString = document.getElementById("mc-input-box").value;
-    console.log(mcString);
+    let mcURL = document.getElementById("mc-url-box").value;
+    let mcDays = document.getElementById("mc-days-box").value;
+//    console.log(mcString);
 
     const mcPrice = await mc.methods.getPrice().call();
-    console.log("Price is" + mcPrice);
+//    console.log("Price is" + mcPrice);
     
     
-    await mc.methods.buyAd(adIndex, mcString).send({from: ethereum.selectedAddress, value: mcPrice});
+    await mc.methods.buyAd(adIndex, mcDays, mcString, mcURL).send({from: ethereum.selectedAddress, value: mcPrice*mcDays});
     adIndex ++;
     refresh();
 
