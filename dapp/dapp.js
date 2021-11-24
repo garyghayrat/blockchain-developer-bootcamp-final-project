@@ -378,19 +378,25 @@ const mcBuy = document.getElementById("mc-buy-button");
 
     //Buying an ad spot
 mcBuy.onclick = async() => {
-//    console.log(document.getElementById("mc-input-box").value);
-    let mcString = document.getElementById("mc-input-box").value;
-    let mcURL = document.getElementById("mc-url-box").value;
-    let mcDays = document.getElementById("mc-days-box").value;
-//    console.log(mcString);
 
-    const mcPrice = await mc.methods.getPrice().call();
+//adding a new item to the list
+
+  // let li = document.createElement("li");
+//    console.log(document.getElementById("mc-input-box").value);
+  let mcString = document.getElementById("mc-input-box").value;
+  let mcURL = document.getElementById("mc-url-box").value;
+  let mcDays = document.getElementById("mc-days-box").value;
+//    console.log(mcString);
+  // let t = document.createTextNode(mcString);
+  // li.appendChild(t);
+
+  const mcPrice = await mc.methods.getPrice().call();
 //    console.log("Price is" + mcPrice);
     
     
-    await mc.methods.buyAd(adIndex, mcDays, mcString, mcURL).send({from: ethereum.selectedAddress, value: mcPrice*mcDays});
-    adIndex ++;
-    refresh();
+  await mc.methods.buyAd(adIndex, mcDays, mcString, mcURL).send({from: ethereum.selectedAddress, value: mcPrice*mcDays});
+  adIndex ++;
+  refresh();
 
 //    window.location.reload(true);
 };

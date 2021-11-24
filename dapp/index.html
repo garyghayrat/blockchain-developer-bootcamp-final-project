@@ -12,7 +12,9 @@
 
 </head>
 <body>
+    <header>
     <h1>Welcome to Garyslist</h1>
+    </header>
     <div id="mm-detected"></div>
     <div id="mm-current-account"></div>
     <button id="mm-connect">Connect to Metamask</button>
@@ -22,16 +24,20 @@
     <div id="availability"></div>
     <div id="daily-rate"></div>
 
-
-    <textarea id="mc-input-box" placeholder="Your description here"></textarea>
-    <textarea id="mc-url-box" placeholder="Your URL here"></textarea>
-    <input id="mc-days-box" placeholder="For how many days">
+    <form>
+    <input type="text" id="mc-input-box" placeholder="Your description here"></textarea>
+    <input type="text" id="mc-url-box" placeholder="Your URL here"></textarea>
+    <input id="mc-days-box" placeholder="Up for how many days">
     <button id="mc-buy-button">Submit Message</button>
-
+    </form>
 
     <div id="ad0">This ad spot is available for sale</div>
     <div id="ad1" href="https://www.google.com/">This ad spot is available for sale</div>
     <div id="ad2">This ad spot is available for sale</div>
+
+    <ul id="list">
+        <li>no.1</li>
+    </ul>
 
     <script src="dapp.js"></script>
 </body>
