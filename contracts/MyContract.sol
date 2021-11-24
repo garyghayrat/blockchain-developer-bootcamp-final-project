@@ -10,7 +10,7 @@ contract MyContract is Ownable{
   uint adCount = 0;
 
 //all buyers who get to close their adSpace and get a refund
-  address[3] public buyers;
+//  address[3] public buyers;
 
 //all avaialble ad spaces
   mapping (uint => Ad) public ads;
@@ -72,18 +72,22 @@ contract MyContract is Ownable{
   function showAd(uint adID) public view returns(string memory) {
     return ads[adID].message;
   }
+
+  function showAdUrl(uint adID) public view returns(string memory) {
+    return ads[adID].url;
+  }
   
   function getPrice() public view returns(uint) {
     return price;
   }
 
   function changePrice(uint newPrice) external onlyOwner {
-    Price = newPrice;
+    price = newPrice;
   }
 
-  // function getBuyer(uint number) public view returns(address) {
-  //   return buyers[number];
-  // }
+  function getBuyer(uint adID) public view returns(address) {
+    return ads[adID].buyer;
+  }
 
 //Remove an adSpace message and replace with default.
   function closeAd(uint adID) public verifyBuyer(adID, msg.sender) {

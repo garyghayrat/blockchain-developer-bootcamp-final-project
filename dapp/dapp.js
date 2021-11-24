@@ -3,7 +3,7 @@
 
 console.log("Hello world");
 
-const mcAddress = '0x968cDEFB297a97AD732617588D584211382A2E70';
+const mcAddress = '0xA6f2223291717AF015538D3E04771724977C3ef1';
 
 const mcABI = [
   {
@@ -207,6 +207,19 @@ const mcABI = [
     "stateMutability": "view",
     "type": "function",
     "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "newPrice",
+        "type": "uint256"
+      }
+    ],
+    "name": "changePrice",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
     "inputs": [

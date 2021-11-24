@@ -18,7 +18,7 @@ contract("MyContract", accounts => {
     it("able to register a message onto adSpace", async() => {
       const mcInstance = await MyContract.new({from : accounts[0]});
       const price = await mcInstance.getPrice();
-      await mcInstance.buyAd(0, "test message", {value: String(price)});
+      await mcInstance.buyAd(0, 1, "test message", "test.rul", {value: String(price)});
       
       const message = await mcInstance.showAd(0);
       //console.log(message);
@@ -29,7 +29,7 @@ contract("MyContract", accounts => {
       const mcInstance = await MyContract.new({from : accounts[0]});
       const price = await mcInstance.getPrice();
       //console.log(price);
-      await mcInstance.buyAd(0, "test message", {value: String(price)});
+      await mcInstance.buyAd(0, 1, "test message", "test.rul", {value: String(price)});
       const buyer = await mcInstance.getBuyer(0);
       assert.equal(buyer, accounts[0]);
       
