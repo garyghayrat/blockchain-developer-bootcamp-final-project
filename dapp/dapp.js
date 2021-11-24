@@ -292,7 +292,6 @@ const mcABI = [
 //Use this for local node
 const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
 
-
 const mc = new web3.eth.Contract(mcABI, mcAddress);
 
 let adIndex = 0;
@@ -303,8 +302,7 @@ refresh();
 
 window.addEventListener('load', () => {
     if(typeof window.ethereum !== 'undefined') {
-        let mmDetected = document.getElementById(
-            'mm-detected')
+        let mmDetected = document.getElementById('mm-detected');
         mmDetected.innerHTML = "Metamask Has Been Detected";
     }
 
@@ -315,6 +313,9 @@ window.addEventListener('load', () => {
 });
 
 const mmEnable = document.getElementById("mm-connect");
+
+
+
 
     //Connecting to Metamask
 mmEnable.onclick = async() => {
@@ -376,8 +377,29 @@ const resetAds = document.getElementById("reset-ad-button");
     //Buy ad spot 0 with custom message
 const mcBuy = document.getElementById("mc-buy-button");
 
+const List = document.querySelector("#list");
     //Buying an ad spot
 mcBuy.onclick = async() => {
+ // event.preventDefault();
+
+  //List DIV
+  const listDiv = document.createElement('div');
+  listDiv.classList.add("list");
+  //Create LI
+  const newItem = document.createElement('li');
+  newItem.innerText = 'this should be working';
+  newItem.classList.add('list-item');
+
+  listDiv.appendChild(newItem);
+
+  //Delete button
+  const deleteButton = document.createElement('button');
+  deleteButton.innerHTML = "Delete";
+  deleteButton.classList.add('delete-btn');
+  listDiv.appendChild(deleteButton);
+
+  //Append to list 
+  List.appendChild(listDiv);
 
 //adding a new item to the list
 
