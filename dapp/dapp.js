@@ -3,7 +3,7 @@
 
 console.log("Hello world");
 
-const mcAddress = '0x6797d81D1B75Cc6814c8B27a754e4D44f9377278';
+const mcAddress = '0x150c400D597Fceb3D988Ef10e8A2846446c9f0Dc';
 
 const mcABI = [
   {
@@ -256,6 +256,20 @@ const mcABI = [
   },
   {
     "inputs": [],
+    "name": "getAdCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [],
     "name": "refund",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -294,9 +308,10 @@ const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
 
 const mc = new web3.eth.Contract(mcABI, mcAddress);
 
-let adIndex = 0;
+//console.log("adIndex is " + adIndex);
+//let adIndex = 0;
 //mc.setProvider(window.ethereum);
-console.log("index is " + adIndex);
+
 
 refresh();
 
@@ -340,25 +355,49 @@ const showAds = document.getElementById("show-ad-button");
       refresh();
     };
 
+
+
 //Refresh the number of avaialble ad spots and show existing ads
-async function refresh(){
-//Showing the # of avaialble spots
-document.getElementById("availability").innerHTML = "Available number of spots: " + (3 - adIndex);
+async function refresh() {
 
 //Show price in ETH
 let price = await mc.methods.getPrice().call();
 let ethprice = web3.utils.fromWei(price, 'ether');
 document.getElementById("daily-rate").innerHTML =  "Current rate is " + ethprice + "ether/day";
 
+//Show current adIndex/AdCount
+let adIndex = await mc.methods.getAdCount().call();
+console.log("index is " + adIndex);
 //Show existing ad spots
-for(let i = 0; i < 3; i++) {
- // const showAds = document.getElementById("show-ad-button");
-  let ad = document.getElementById("ad" + i);
+for(let i = adIndex-1; i >= (adIndex - 10); i--) {
+
+
   let adString = await mc.methods.showAd(i).call();
   let adURL = await mc.methods.showAdUrl(i).call(); //trying to figure out how to access an object without creating a function in smart contract
-  ad.innerHTML = adString;
-  ad.onclick = () => window.open(adURL);
-  ad.target = "_blank";
+  //ad.innerHTML = adString;
+
+
+  //List DIV
+  const listDiv = document.createElement('div');
+  listDiv.classList.add("list");
+  //Create LI
+  const newItem = document.createElement('li');
+  newItem.innerText = adString;
+  newItem.id = 'list-item';
+
+  listDiv.appendChild(newItem);
+
+  //Delete button
+  const deleteButton = document.createElement('button');
+  deleteButton.innerHTML = "Delete";
+  deleteButton.id = 'delete-btn';
+  listDiv.appendChild(deleteButton);
+
+  //Append to list 
+  List.appendChild(listDiv);
+
+  //ad.onclick = () => window.open(adURL);
+  //ad.target = "_blank";
   console.log("ad " + i + " is " + adString + " url is " + adURL);
     };
 };
@@ -378,28 +417,33 @@ const resetAds = document.getElementById("reset-ad-button");
 const mcBuy = document.getElementById("mc-buy-button");
 
 const List = document.querySelector("#list");
-    //Buying an ad spot
-mcBuy.onclick = async() => {
- // event.preventDefault();
+   
 
+//Buying an ad spot
+//mcBuy.onclick = addItem();
+  mcBuy.onclick = async () => {
+
+//async function addItem() {
+ // event.preventDefault();
+  let adIndex = await mc.methods.getAdCount().call();
+  console.log("adIndex is " + adIndex);
   //List DIV
   const listDiv = document.createElement('div');
-  listDiv.classList.add("list");
   //Create LI
   const newItem = document.createElement('li');
-  newItem.innerText = 'this should be working';
-  newItem.classList.add('list-item');
+  newItem.innerText = document.getElementById("mc-input-box").value;
+  newItem.id = 'list-item';
 
-  listDiv.appendChild(newItem);
+  listDiv.insertBefore(newItem, listDiv.childNodes[0]);
 
   //Delete button
   const deleteButton = document.createElement('button');
   deleteButton.innerHTML = "Delete";
-  deleteButton.classList.add('delete-btn');
+  deleteButton.id = 'delete-btn';
   listDiv.appendChild(deleteButton);
 
   //Append to list 
-  List.appendChild(listDiv);
+  List.insertBefore(listDiv,List.childNodes[0]);
 
 //adding a new item to the list
 
@@ -417,8 +461,8 @@ mcBuy.onclick = async() => {
     
     
   await mc.methods.buyAd(adIndex, mcDays, mcString, mcURL).send({from: ethereum.selectedAddress, value: mcPrice*mcDays});
-  adIndex ++;
-  refresh();
+  //adIndex ++;
+ // refresh();
 
 //    window.location.reload(true);
 };

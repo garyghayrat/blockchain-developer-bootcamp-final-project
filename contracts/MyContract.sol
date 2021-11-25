@@ -3,11 +3,11 @@ pragma solidity >=0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 //import "hardhat/console.sol";
 
-contract MyContract is Ownable{
+contract MyContract is Ownable {
 
 //Determine how many adSpots are available;
   uint spots = 3;
-  uint adCount = 0;
+  uint AdCount = 0;
 
 //all buyers who get to close their adSpace and get a refund
 //  address[3] public buyers;
@@ -53,11 +53,11 @@ contract MyContract is Ownable{
   }
 
 //Pick an adSpace # from the mapping and input a message to be displayed on the website
-  function buyAd(uint adID, uint _expires, string memory _message, string memory _url) public payable verifyAmount(adID, _expires) verifyExists(adID) returns(string memory) {
+  function buyAd(uint adID, uint _expires, string memory _message, string memory _url) public payable verifyAmount(adID, _expires) returns(string memory) {
     //require (ads[adID].sold == false);
 
     ads[adID] = Ad({
-      adCount: adCount,
+      adCount: AdCount,
       price: price,
       expires: block.timestamp + (_expires * 1 days),
       message: _message,
@@ -65,6 +65,8 @@ contract MyContract is Ownable{
       buyer : msg.sender,
       sold : true
     });
+
+    AdCount ++;
 
     return ads[adID].message;
   }
@@ -96,6 +98,12 @@ contract MyContract is Ownable{
     ads[adID].sold = false;
 
     refund();
+  }
+
+//Return current adCount
+
+  function getAdCount() public view returns (uint) {
+    return AdCount;
   }
 
 //Refund customer with the unused eth balance after closing the adSpace
