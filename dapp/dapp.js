@@ -308,11 +308,6 @@ const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
 
 const mc = new web3.eth.Contract(mcABI, mcAddress);
 
-//console.log("adIndex is " + adIndex);
-//let adIndex = 0;
-//mc.setProvider(window.ethereum);
-
-
 refresh();
 
 window.addEventListener('load', () => {
@@ -341,19 +336,12 @@ mmEnable.onclick = async() => {
     mmCurrentAccount.innerHTML = "Here's your current account " + ethereum.selectedAddress;
 };
 
-    //Show all ads
+
     //Load existing ads
-const showAds = document.getElementById("show-ad-button");
-  //console.log(mc.methods.spots().call());
-    showAds.onclick = async() => {
-    //   for(let i = 0; i < 3; i++) {
-    // let ad = document.getElementById("ad" + i);
-    // let adString = await mc.methods.showAd(i).call();
-    // ad.innerHTML = adString;
-    // console.log("ad " + i + " is " + adString);
-    //   };
-      refresh();
-    };
+// const showAds = document.getElementById("show-ad-button");
+//     showAds.onclick = async() => {
+//       refresh();
+//     };
 
 
 
@@ -382,7 +370,7 @@ for(let i = adIndex-1; i >= (adIndex - 10); i--) {
   listDiv.classList.add("list");
   //Create LI
   const newItem = document.createElement('li');
-  newItem.innerText = adString;
+  newItem.innerHTML = adString;
   newItem.id = 'list-item';
 
   listDiv.appendChild(newItem);
@@ -406,12 +394,12 @@ for(let i = adIndex-1; i >= (adIndex - 10); i--) {
 const closeAd = document.getElementById("clsoe-ad-button");
 
     //Reset adIndex to 0;
-const resetAds = document.getElementById("reset-ad-button");
+// const resetAds = document.getElementById("reset-ad-button");
 
-    resetAds.onclick = async() => {
-      adIndex = 0;
-      console.log("you may now change ad messages from index 0");
-    };
+//     resetAds.onclick = async() => {
+//       adIndex = 0;
+//       console.log("you may now change ad messages from index 0");
+//     };
 
     //Buy ad spot 0 with custom message
 const mcBuy = document.getElementById("mc-buy-button");
@@ -428,12 +416,23 @@ const List = document.querySelector("#list");
   let adIndex = await mc.methods.getAdCount().call();
   console.log("adIndex is " + adIndex);
   //List DIV
+  await ethereum.request({ method: 'eth_requestAccounts'});
+  let mcAddress = ethereum.selectedAddress;
+  const mcPrice = await mc.methods.getPrice().call();   
+  
   const listDiv = document.createElement('div');
   //Create LI
   const newItem = document.createElement('li');
-  newItem.innerText = document.getElementById("mc-input-box").value;
-  newItem.id = 'list-item';
 
+  let String = document.getElementById("mc-input-box").value;
+  let mcURL = document.getElementById("mc-url-box").value;
+  let mcDays = document.getElementById("mc-days-box").value;
+
+  let mcString = "ID: " + adIndex + "&nbsp&nbsp" + mcAddress + "<br/>" + String + "<br/>" + mcURL.link(mcURL) + "This message expires in " + mcDays + "day(s)";
+
+  newItem.innerHTML = mcString;
+  newItem.id = 'list-item';
+  
   listDiv.insertBefore(newItem, listDiv.childNodes[0]);
 
   //Delete button
@@ -442,28 +441,9 @@ const List = document.querySelector("#list");
   deleteButton.id = 'delete-btn';
   listDiv.appendChild(deleteButton);
 
+  await mc.methods.buyAd(adIndex, mcDays, mcString, mcURL).send({from: ethereum.selectedAddress, value: mcPrice*mcDays});
   //Append to list 
   List.insertBefore(listDiv,List.childNodes[0]);
 
-//adding a new item to the list
-
-  // let li = document.createElement("li");
-//    console.log(document.getElementById("mc-input-box").value);
-  let mcString = document.getElementById("mc-input-box").value;
-  let mcURL = document.getElementById("mc-url-box").value;
-  let mcDays = document.getElementById("mc-days-box").value;
-//    console.log(mcString);
-  // let t = document.createTextNode(mcString);
-  // li.appendChild(t);
-
-  const mcPrice = await mc.methods.getPrice().call();
-//    console.log("Price is" + mcPrice);
-    
-    
-  await mc.methods.buyAd(adIndex, mcDays, mcString, mcURL).send({from: ethereum.selectedAddress, value: mcPrice*mcDays});
-  //adIndex ++;
- // refresh();
-
-//    window.location.reload(true);
 };
 
