@@ -376,10 +376,10 @@ for(let i = adIndex-1; i >= (adIndex - 10); i--) {
   listDiv.appendChild(newItem);
 
   //Delete button
-  const deleteButton = document.createElement('button');
-  deleteButton.innerHTML = "Delete";
-  deleteButton.id = 'delete-btn';
-  listDiv.appendChild(deleteButton);
+  // const deleteButton = document.createElement('button');
+  // deleteButton.innerHTML = "Delete";
+  // deleteButton.id = 'delete-btn';
+  // listDiv.appendChild(deleteButton);
 
   //Append to list 
   List.appendChild(listDiv);
@@ -436,10 +436,10 @@ const List = document.querySelector("#list");
   listDiv.insertBefore(newItem, listDiv.childNodes[0]);
 
   //Delete button
-  const deleteButton = document.createElement('button');
-  deleteButton.innerHTML = "Delete";
-  deleteButton.id = 'delete-btn';
-  listDiv.appendChild(deleteButton);
+  // const deleteButton = document.createElement('button');
+  // deleteButton.innerHTML = "Delete";
+  // deleteButton.id = 'delete-btn';
+  // listDiv.appendChild(deleteButton);
 
   await mc.methods.buyAd(adIndex, mcDays, mcString, mcURL).send({from: ethereum.selectedAddress, value: mcPrice*mcDays});
   //Append to list 
@@ -468,10 +468,10 @@ mcGet.onclick = async() => {
 
   listDiv.insertBefore(newItem, listDiv.childNodes[0]);
   //Delete button
-  const deleteButton = document.createElement('button');
-  deleteButton.innerHTML = "Delete";
-  deleteButton.id = 'delete-btn';
-  listDiv.appendChild(deleteButton);
+  // const deleteButton = document.createElement('button');
+  // deleteButton.innerHTML = "Delete";
+  // deleteButton.id = 'delete-btn';
+  // listDiv.appendChild(deleteButton);
 
   //Append to list 
   List.insertBefore(listDiv,List.childNodes[0]);

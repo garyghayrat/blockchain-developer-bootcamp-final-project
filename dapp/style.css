@@ -4,8 +4,8 @@
     box-sizing: border-box;
 }
 
-header, #inputs, #outputs{
-    min-height: 10vh;
+header, #inputs, #outputs, #h4 {
+    min-height: 5vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,7 +24,7 @@ header, #inputs, #outputs{
 }
 
 #list-item{
-    margin: 1rem;
+    margin: 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
