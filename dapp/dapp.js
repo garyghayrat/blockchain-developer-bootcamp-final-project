@@ -447,3 +447,34 @@ const List = document.querySelector("#list");
 
 };
 
+
+const mcGet = document.getElementById("mc-get-button");
+
+//Retrieve message
+mcGet.onclick = async() => {
+  let ID = document.getElementById("mc-output-box").value;
+  let adString = await mc.methods.showAd(ID).call();
+  let adURL = await mc.methods.showAdUrl(ID).call(); //trying to figure out how to access an object without creating a function in smart contract
+  //ad.innerHTML = adString;
+
+
+  //List DIV
+  const listDiv = document.createElement('div');
+  listDiv.classList.add("list");
+  //Create LI
+  const newItem = document.createElement('li');
+  newItem.innerHTML = adString;
+  newItem.id = 'list-item';
+
+  listDiv.insertBefore(newItem, listDiv.childNodes[0]);
+  //Delete button
+  const deleteButton = document.createElement('button');
+  deleteButton.innerHTML = "Delete";
+  deleteButton.id = 'delete-btn';
+  listDiv.appendChild(deleteButton);
+
+  //Append to list 
+  List.insertBefore(listDiv,List.childNodes[0]);
+
+  console.log("ad " + ID + " is " + adString + " url is " + adURL);
+}

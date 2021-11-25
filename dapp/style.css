@@ -4,8 +4,8 @@
     box-sizing: border-box;
 }
 
-header, #inputs{
-    min-height: 20vh;
+header, #inputs, #outputs{
+    min-height: 10vh;
     display: flex;
     justify-content: center;
     align-items: center;
