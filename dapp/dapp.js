@@ -3,7 +3,7 @@
 
 console.log("Hello world");
 
-const mcAddress = '0x6797d81D1B75Cc6814c8B27a754e4D44f9377278';
+const mcAddress = '0x150c400D597Fceb3D988Ef10e8A2846446c9f0Dc';
 
 const mcABI = [
   {
@@ -256,6 +256,20 @@ const mcABI = [
   },
   {
     "inputs": [],
+    "name": "getAdCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [],
     "name": "refund",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -292,19 +306,13 @@ const mcABI = [
 //Use this for local node
 const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
 
-
 const mc = new web3.eth.Contract(mcABI, mcAddress);
-
-let adIndex = 0;
-//mc.setProvider(window.ethereum);
-console.log("index is " + adIndex);
 
 refresh();
 
 window.addEventListener('load', () => {
     if(typeof window.ethereum !== 'undefined') {
-        let mmDetected = document.getElementById(
-            'mm-detected')
+        let mmDetected = document.getElementById('mm-detected');
         mmDetected.innerHTML = "Metamask Has Been Detected";
     }
 
@@ -316,6 +324,9 @@ window.addEventListener('load', () => {
 
 const mmEnable = document.getElementById("mm-connect");
 
+
+
+
     //Connecting to Metamask
 mmEnable.onclick = async() => {
     await ethereum.request({ method: 'eth_requestAccounts'});
@@ -325,39 +336,56 @@ mmEnable.onclick = async() => {
     mmCurrentAccount.innerHTML = "Here's your current account " + ethereum.selectedAddress;
 };
 
-    //Show all ads
+
     //Load existing ads
-const showAds = document.getElementById("show-ad-button");
-  //console.log(mc.methods.spots().call());
-    showAds.onclick = async() => {
-    //   for(let i = 0; i < 3; i++) {
-    // let ad = document.getElementById("ad" + i);
-    // let adString = await mc.methods.showAd(i).call();
-    // ad.innerHTML = adString;
-    // console.log("ad " + i + " is " + adString);
-    //   };
-      refresh();
-    };
+// const showAds = document.getElementById("show-ad-button");
+//     showAds.onclick = async() => {
+//       refresh();
+//     };
+
+
 
 //Refresh the number of avaialble ad spots and show existing ads
-async function refresh(){
-//Showing the # of avaialble spots
-document.getElementById("availability").innerHTML = "Available number of spots: " + (3 - adIndex);
+async function refresh() {
 
 //Show price in ETH
 let price = await mc.methods.getPrice().call();
 let ethprice = web3.utils.fromWei(price, 'ether');
 document.getElementById("daily-rate").innerHTML =  "Current rate is " + ethprice + "ether/day";
 
+//Show current adIndex/AdCount
+let adIndex = await mc.methods.getAdCount().call();
+console.log("index is " + adIndex);
 //Show existing ad spots
-for(let i = 0; i < 3; i++) {
- // const showAds = document.getElementById("show-ad-button");
-  let ad = document.getElementById("ad" + i);
+for(let i = adIndex-1; i >= (adIndex - 10); i--) {
+
+
   let adString = await mc.methods.showAd(i).call();
   let adURL = await mc.methods.showAdUrl(i).call(); //trying to figure out how to access an object without creating a function in smart contract
-  ad.innerHTML = adString;
-  ad.onclick = () => window.open(adURL);
-  ad.target = "_blank";
+  //ad.innerHTML = adString;
+
+
+  //List DIV
+  const listDiv = document.createElement('div');
+  listDiv.classList.add("list");
+  //Create LI
+  const newItem = document.createElement('li');
+  newItem.innerHTML = adString;
+  newItem.id = 'list-item';
+
+  listDiv.appendChild(newItem);
+
+  //Delete button
+  const deleteButton = document.createElement('button');
+  deleteButton.innerHTML = "Delete";
+  deleteButton.id = 'delete-btn';
+  listDiv.appendChild(deleteButton);
+
+  //Append to list 
+  List.appendChild(listDiv);
+
+  //ad.onclick = () => window.open(adURL);
+  //ad.target = "_blank";
   console.log("ad " + i + " is " + adString + " url is " + adURL);
     };
 };
@@ -366,32 +394,87 @@ for(let i = 0; i < 3; i++) {
 const closeAd = document.getElementById("clsoe-ad-button");
 
     //Reset adIndex to 0;
-const resetAds = document.getElementById("reset-ad-button");
+// const resetAds = document.getElementById("reset-ad-button");
 
-    resetAds.onclick = async() => {
-      adIndex = 0;
-      console.log("you may now change ad messages from index 0");
-    };
+//     resetAds.onclick = async() => {
+//       adIndex = 0;
+//       console.log("you may now change ad messages from index 0");
+//     };
 
     //Buy ad spot 0 with custom message
 const mcBuy = document.getElementById("mc-buy-button");
 
-    //Buying an ad spot
-mcBuy.onclick = async() => {
-//    console.log(document.getElementById("mc-input-box").value);
-    let mcString = document.getElementById("mc-input-box").value;
-    let mcURL = document.getElementById("mc-url-box").value;
-    let mcDays = document.getElementById("mc-days-box").value;
-//    console.log(mcString);
+const List = document.querySelector("#list");
+   
 
-    const mcPrice = await mc.methods.getPrice().call();
-//    console.log("Price is" + mcPrice);
-    
-    
-    await mc.methods.buyAd(adIndex, mcDays, mcString, mcURL).send({from: ethereum.selectedAddress, value: mcPrice*mcDays});
-    adIndex ++;
-    refresh();
+//Buying an ad spot
+//mcBuy.onclick = addItem();
+  mcBuy.onclick = async () => {
 
-//    window.location.reload(true);
+//async function addItem() {
+ // event.preventDefault();
+  let adIndex = await mc.methods.getAdCount().call();
+  console.log("adIndex is " + adIndex);
+  //List DIV
+  await ethereum.request({ method: 'eth_requestAccounts'});
+  let mcAddress = ethereum.selectedAddress;
+  const mcPrice = await mc.methods.getPrice().call();   
+  
+  const listDiv = document.createElement('div');
+  //Create LI
+  const newItem = document.createElement('li');
+
+  let String = document.getElementById("mc-input-box").value;
+  let mcURL = document.getElementById("mc-url-box").value;
+  let mcDays = document.getElementById("mc-days-box").value;
+
+  let mcString = "ID: " + adIndex + "&nbsp&nbsp" + mcAddress + "<br/>" + String + "<br/>" + mcURL.link(mcURL) + "This message expires in " + mcDays + "day(s)";
+
+  newItem.innerHTML = mcString;
+  newItem.id = 'list-item';
+  
+  listDiv.insertBefore(newItem, listDiv.childNodes[0]);
+
+  //Delete button
+  const deleteButton = document.createElement('button');
+  deleteButton.innerHTML = "Delete";
+  deleteButton.id = 'delete-btn';
+  listDiv.appendChild(deleteButton);
+
+  await mc.methods.buyAd(adIndex, mcDays, mcString, mcURL).send({from: ethereum.selectedAddress, value: mcPrice*mcDays});
+  //Append to list 
+  List.insertBefore(listDiv,List.childNodes[0]);
+
 };
 
+
+const mcGet = document.getElementById("mc-get-button");
+
+//Retrieve message
+mcGet.onclick = async() => {
+  let ID = document.getElementById("mc-output-box").value;
+  let adString = await mc.methods.showAd(ID).call();
+  let adURL = await mc.methods.showAdUrl(ID).call(); //trying to figure out how to access an object without creating a function in smart contract
+  //ad.innerHTML = adString;
+
+
+  //List DIV
+  const listDiv = document.createElement('div');
+  listDiv.classList.add("list");
+  //Create LI
+  const newItem = document.createElement('li');
+  newItem.innerHTML = adString;
+  newItem.id = 'list-item';
+
+  listDiv.insertBefore(newItem, listDiv.childNodes[0]);
+  //Delete button
+  const deleteButton = document.createElement('button');
+  deleteButton.innerHTML = "Delete";
+  deleteButton.id = 'delete-btn';
+  listDiv.appendChild(deleteButton);
+
+  //Append to list 
+  List.insertBefore(listDiv,List.childNodes[0]);
+
+  console.log("ad " + ID + " is " + adString + " url is " + adURL);
+}
