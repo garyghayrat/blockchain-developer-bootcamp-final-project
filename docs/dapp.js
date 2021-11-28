@@ -3,7 +3,7 @@
 
 console.log("Hello world");
 
-const mcAddress = '0x150c400D597Fceb3D988Ef10e8A2846446c9f0Dc';
+const mcAddress = '0xED275C477dd4236c34d345d84D886F155090Ee83';
 
 const mcABI = [
   {
@@ -301,10 +301,10 @@ const mcABI = [
 
 
 //For rinkeby use line below
-//var web3 = new Web3(window.ethereum);
+var web3 = new Web3(window.ethereum);
 
 //Use this for local node
-const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
+//const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
 
 const mc = new web3.eth.Contract(mcABI, mcAddress);
 
@@ -357,7 +357,7 @@ document.getElementById("daily-rate").innerHTML =  "Current rate is " + ethprice
 let adIndex = await mc.methods.getAdCount().call();
 console.log("index is " + adIndex);
 //Show existing ad spots
-for(let i = adIndex-1; i >= (adIndex - 10); i--) {
+for(let i = adIndex; (i >= (adIndex - 10) || i >= 0); i--) {
 
 
   let adString = await mc.methods.showAd(i).call();

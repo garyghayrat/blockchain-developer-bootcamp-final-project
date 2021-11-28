@@ -1,15 +1,28 @@
-# Garyslist is a classified advertisement smart contract with a front-end.
+# Garyslist is a simple interface to store important messages and links on the blockchain 
 
-### Workflow
+
+## Project URL
+
+https://garyghayrat.github.io/blockchain-developer-bootcamp-final-project/
+
+## Workflow
 
 Buying an advertisement spot:
 	
-	1. Customers connect their wallet to the website.
+	1. Connect your Metamask wallet to the website.
 
-	2. They can choose an advertising space and pay a daily rate of ETH for however many days they would like.
+	2. Change your wallet network to Rinkeby Test Network
 
-Closing a spot early:
+	3. Input a description, a link or a message, and the number of days you would like the message to be stored for.
 
-	1. Customers can close their ad space and get a refund for the remainder of the days they've purchased. 
+	4. Click the submit message button and pay for the transaction through the Metamask prompt.
 
+	5. Input the ID corresponding to your message and click the Retrieve Message button to see your message any time. 
 
+## Running the project locally
+
+### Frontend
+
+	1. cd docs/
+	
+	2. 
