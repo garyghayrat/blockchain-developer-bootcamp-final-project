@@ -357,7 +357,7 @@ document.getElementById("daily-rate").innerHTML =  "Current rate is " + ethprice
 let adIndex = await mc.methods.getAdCount().call();
 console.log("index is " + adIndex);
 //Show existing ad spots
-for(let i = adIndex; (i >= (adIndex - 10) || i >= 0); i--) {
+for(let i = adIndex-1; (i >= (adIndex - 10) || i >= 0); i--) {
 
 
   let adString = await mc.methods.showAd(i).call();
