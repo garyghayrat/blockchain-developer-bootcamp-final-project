@@ -57,6 +57,10 @@ Buying a message spot:
 
 3. Select `index.html`, right click and select Open with Live Server
 
+4. Make sure you're running ganache and open http://127.0.0.1:5500 if it isn't already
+
+5. Change Metamask network to Localhost 8545, then you can start interacting with the contract.
+
 
 ## Screencast Link
 https://www.youtube.com/watch?v=CqFzxU8WOVU
