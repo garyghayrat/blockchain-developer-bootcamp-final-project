@@ -26,28 +26,28 @@ Buying a message spot:
 
 ### Prerequisites
 
-	- Node.js >= v14
-	- Truffle and Ganache
-	- VScode with Live Server extension
+- Node.js >= v14
+- Truffle and Ganache
+- VScode with Live Server extension
 
 ### Directory structure
 
-	- `docs`: Project's frontend
-	- `contracts`: Smart contracts that are deployed in the Rinkeby Test Net
-	- `migrations`: Migration files for deploying smart contracts.
-	- `test`: JS tests for the smart contracts.
+- `docs`: Project's frontend
+- `contracts`: Smart contracts that are deployed in the Rinkeby Test Net
+- `migrations`: Migration files for deploying smart contracts.
+- `test`: JS tests for the smart contracts.
 
 ### Contracts 
 
-	1. Run `npm install` to install dependencies
+1. Run `npm install` to install dependencies
 
-	2. Run `ganache-cli` in a terminal, port 8545 is the default
+2. Run `ganache-cli` in a terminal, port 8545 is the default
 
-	3. Run `truffle migrate` in the root directory
+3. Run `truffle migrate` in the root directory
 
-	4. `truffle console`
+4. `truffle console`
 
-	5. Run `test`
+5. Run `test`
 
 ### Frontend
 
