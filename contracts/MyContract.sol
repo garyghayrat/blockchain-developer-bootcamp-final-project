@@ -1,21 +1,24 @@
-// SPDX-License-Identifier: MIT
+/// SPDX-License-Identifier: MIT
 pragma solidity =0.8.0;
-import "@openzeppelin/contracts/access/Ownable.sol";
-//import "hardhat/console.sol";
 
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+/// @title Garyslist
+/// @author Gary Ghayrat
+/// @notice Simple way to store texts on Ethereum 
+/// @dev All function calls are currently implemented without side effects
 contract MyContract is Ownable {
 
-//Determine how many adSpots are available;
+/// @dev Determine how many adSpots are available;
   uint spots = 3;
   uint AdCount = 0;
 
-//all buyers who get to close their adSpace and get a refund
-//  address[3] public buyers;
+/// @dev To be implemented: all buyers who get to close their adSpace and get a refund
 
-//all avaialble ad spaces
+/// @dev All avaialble ad spaces
   mapping (uint => Ad) public ads;
 
-//Ad specifications
+/// @dev Ad specifications
 
   struct Ad {
     uint adCount;
@@ -27,34 +30,37 @@ contract MyContract is Ownable {
     bool sold;
   }
 
-//Buyer's balance
+/// @dev Buyer's balance, currently not used
   mapping (address => uint) balances;
 
-//Price of a single adSpace;
+/// @dev Price of a single adSpace;
   uint price = 1e13; //0.0001 ether
   
 
-//Verify it's the owner of an ad that's trying to call the contract;
+/// @dev Verify it's the owner of an ad that's trying to call the contract;
+/// @param adID unique ID for each message
+/// @param _address address of the owner of a message
   modifier verifyBuyer (uint adID, address _address) {
     require(_address == ads[adID].buyer);
     _;
   }
 
-//Verify buyer paid enough for the adSpace or have enough balance in their account;
+/// @dev Verify buyer paid enough for the adSpace or have enough balance in their account;
+/// @param expires number of days the buyer paid to keep the message up
   modifier verifyAmount(uint adID, uint expires) {
     require(msg.value >= price*expires);
     _;
   }
 
-//Verify the adID exists within range
+/// @dev Verify the adID exists within range
   modifier verifyExists(uint adID) {
     require (adID >= 0 && adID < spots);
     _;
   }
 
-//Pick an adSpace # from the mapping and input a message to be displayed on the website
+/// @dev Pick an adSpace # from the mapping and input a message to be displayed on the website
   function buyAd(uint adID, uint _expires, string memory _message, string memory _url) public payable verifyAmount(adID, _expires) returns(string memory) {
-    //require (ads[adID].sold == false);
+    /// @dev Need to initialize sold status to be able to use: require (ads[adID].sold == false);
 
     ads[adID] = Ad({
       adCount: AdCount,
@@ -71,6 +77,7 @@ contract MyContract is Ownable {
     return ads[adID].message;
   }
   
+/// @dev Following functions will be completed with future updates
   function showAd(uint adID) public view returns(string memory) {
     return ads[adID].message;
   }
@@ -91,7 +98,7 @@ contract MyContract is Ownable {
     return ads[adID].buyer;
   }
 
-//Remove an adSpace message and replace with default.
+/// @dev Remove an adSpace message and replace with default.
   function closeAd(uint adID) public verifyBuyer(adID, msg.sender) {
     ads[adID].message = "";
     ads[adID].buyer = address(0);
@@ -100,30 +107,30 @@ contract MyContract is Ownable {
     refund();
   }
 
-//Return current adCount
+/// @dev Return current adCount
 
   function getAdCount() public view returns (uint) {
     return AdCount;
   }
 
-//Refund customer with the unused eth balance after closing the adSpace
+/// @dev Refund customer with the unused eth balance after closing the adSpace
   function refund() public {
 
   }
 
 
-//Enable contract to receive money
+/// @dev Enable contract to receive money
   receive() external payable {}
 
-//Fallback function is called when msg.data is not empty
+/// @dev Fallback function is called when msg.data is not empty
   fallback() external payable {}
 
-//Check money accured in the contract
+/// @dev Check money accured in the contract
   function getBalance() public view returns (uint) {
         return address(this).balance;
   }
 
-//Withdraw money accured in the contract to owner of contract
+/// @dev Withdraw money accured in the contract to owner of contract
   function withdrawAll() external onlyOwner {
     (bool sent, bytes memory data) = owner().call{value: getBalance()}("");
     require(sent, "Failed to send Ether");
