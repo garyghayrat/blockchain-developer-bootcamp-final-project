@@ -51,11 +51,11 @@ Buying a message spot:
 
 ### Frontend
 
-	1. `cd docs/`
+1. `cd docs/`
 	
-	2. `code .`
+2. `code .`
 
-	3. Select `index.html`, right click and select Open with Live Server
+3. Select `index.html`, right click and select Open with Live Server
 
 
 ## Screencast Link
