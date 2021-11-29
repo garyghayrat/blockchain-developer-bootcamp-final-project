@@ -12,15 +12,15 @@ Garyslist is a smart contract with a simple interface that lets anyone store tex
 
 Buying a message spot:
 	
-	1. Connect your Metamask wallet to the website.
+1. Connect your Metamask wallet to the website.
 
-	2. Change your wallet network to **Rinkeby** Test Network
+2. Change your wallet network to **Rinkeby** Test Network
 
-	3. Input a description, a link or a message, and the number of days you would like the message to be stored for.
+3. Input a description, a link or a message, and the number of days you would like the message to be stored for.
 
-	4. Click the submit message button and pay for the transaction through the Metamask.
+4. Click the submit message button and pay for the transaction through the Metamask.
 
-	5. Input the ID corresponding to your message and click the Retrieve Message button to see your message any time. 
+5. Input the ID corresponding to your message and click the Retrieve Message button to see your message any time. 
 
 ## Running the project locally
 
