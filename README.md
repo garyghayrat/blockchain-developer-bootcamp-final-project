@@ -32,30 +32,30 @@ Buying a message spot:
 
 ### Directory structure
 
-	- ```docs```: Project's frontend
-	- ```contracts```: Smart contracts that are deployed in the Rinkeby Test Net
-	- ```migrations```: Migration files for deploying smart contracts.
-	- ```test```: JS tests for the smart contracts.
+	- `docs`: Project's frontend
+	- `contracts`: Smart contracts that are deployed in the Rinkeby Test Net
+	- `migrations`: Migration files for deploying smart contracts.
+	- `test`: JS tests for the smart contracts.
 
 ### Contracts 
 
-	1. Run ```npm install``` to install dependencies
+	1. Run `npm install` to install dependencies
 
-	2. Run ```ganache-cli``` in a terminal, port 8545 is the default
+	2. Run `ganache-cli` in a terminal, port 8545 is the default
 
-	3. Run ```truffle migrate``` in the root directory
+	3. Run `truffle migrate` in the root directory
 
-	4. ```truffle console```
+	4. `truffle console`
 
-	5. Run ```test```
+	5. Run `test`
 
 ### Frontend
 
-	1. ```cd docs/```
+	1. `cd docs/`
 	
-	2. ```code .```
+	2. `code .`
 
-	3. Select ```index.html```, right click and select Open with Live Server
+	3. Select `index.html`, right click and select Open with Live Server
 
 
 ## Screencast Link
