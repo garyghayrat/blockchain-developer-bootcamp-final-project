@@ -1,0 +1,47 @@
+Arguments: 
+  /usr/bin/node /usr/bin/yarn start
+
+PATH: 
+  /home/scookie/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/var/lib/flatpak/exports/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/var/lib/snapd/snap/bin
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  16.11.1
+
+Platform: 
+  linux x64
+
+Trace: 
+  SyntaxError: /home/scookie/github/blockchain-developer-bootcamp-final-project/docs/package.json: Unexpected string in JSON at position 191
+      at JSON.parse (<anonymous>)
+      at /usr/lib/node_modules/yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/usr/lib/node_modules/yarn/lib/cli.js:310:30)
+      at /usr/lib/node_modules/yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "docs",
+    "version": "1.0.0",
+    "description": "Safest way to store your links",
+    "main": "dapp.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+      "start": "node dapp.js"
+    },
+    "dependencies": {
+      "@openzeppelin/contracts": "^4.3.3",
+      "truffle": "5.0.5",
+      "web3": "1.0.0-beta.55"
+    },
+    "author": "Gary Ghayrat",
+    "license": "ISC"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

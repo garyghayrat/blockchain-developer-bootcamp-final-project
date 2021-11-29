@@ -301,7 +301,8 @@ const mcABI = [
 
 
 //For rinkeby use line below
-var web3 = new Web3(window.ethereum);
+//var web3 = new Web3(window.ethereum);
+var web3 = new Web3(web3.currentProvider);
 
 //Use this for local node
 //const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
