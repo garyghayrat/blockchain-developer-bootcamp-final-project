@@ -1,18 +1,33 @@
 {
-  "name": "docs",
+  "name": "garyslist",
   "version": "1.0.0",
   "description": "Safest way to store your links",
-  "main": "dapp.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "main": "./docs/dapp.js",
+  "directories": {
+    "doc": "docs",
+    "test": "test"
   },
+  "scripts": {
+    "test": "node ./docs/dapp.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/garyghayrat/blockchain-developer-bootcamp-final-project.git"
+  },
+  "keywords": [
+    "web3"
+  ],
+  "author": "Gary Ghayrat",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/garyghayrat/blockchain-developer-bootcamp-final-project/issues"
+  },
+  "homepage": "https://github.com/garyghayrat/blockchain-developer-bootcamp-final-project#readme",
   "dependencies": {
-    "@openzeppelin/contracts": "^4.3.3",
+    "@openzeppelin/contracts": "^4.4.0",
     "@truffle/hdwallet-provider": "^1.7.0",
     "ganache-cli": "^6.12.2",
-    "truffle": "^5.0.5",
-    "web3": "^1.0.0-beta.55"
-  },
-  "author": "Gary Ghayrat",
-  "license": "ISC"
+    "truffle": "^5.4.22",
+    "web3": "^1.6.1"
+  }
 }
