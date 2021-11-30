@@ -8,7 +8,8 @@ const path = require("path");
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 const infuraURL = 'https://rinkeby.infura.io/v3/2f914bd107014e87b74249b8c6c2ab37'
 const fs = require('fs');
-const mnemonic = fs.readFileSync(".secret").toString().trim();
+//Uncomment below and add a .secret file with your seed phrase to be able to deploy to live networks
+//const mnemonic = fs.readFileSync(".secret").toString().trim();
 
 module.exports = {
   // See <http://truffleframework.com/docs/advanced/configuration>
